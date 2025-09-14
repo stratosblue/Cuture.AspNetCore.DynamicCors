@@ -1,0 +1,9 @@
+﻿@HostAddress = http://localhost:5105
+
+OPTIONS {{HostAddress}}/hello
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+Referer: http://www.sample.com
+Origin: http://www.sample.com
+
+###

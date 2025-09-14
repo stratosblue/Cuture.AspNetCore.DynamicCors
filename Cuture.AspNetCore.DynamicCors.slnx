@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/sample/">
+    <Project Path="sample/DynamicCorsWebApplication/DynamicCorsWebApplication.csproj" />
+  </Folder>
+  <Folder Name="/solution items/">
+    <File Path=".editorconfig" />
+    <File Path="CodeMaid.config" />
+    <File Path="Directory.Build.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Cuture.AspNetCore.DynamicCors/Cuture.AspNetCore.DynamicCors.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Cuture.AspNetCore.DynamicCors.Test/Cuture.AspNetCore.DynamicCors.Test.csproj" />
+  </Folder>
+</Solution>

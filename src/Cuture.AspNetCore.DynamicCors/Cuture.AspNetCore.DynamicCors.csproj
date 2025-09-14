@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <SignAssembly>True</SignAssembly>
+
+    <AssemblyOriginatorKeyFile>../../Cuture.AspNetCore.DynamicCors.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <!--Package-->
+  <PropertyGroup>
+
+    <Version>1.0.0-preview-001</Version>
+
+    <IsPackable>true</IsPackable>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <Description>A `dynamic Cors` support library based on `Microsoft.AspNetCore.Cors`. 基于 `Microsoft.AspNetCore.Cors` 的 `动态Cors` 支持库。</Description>
+
+    <Authors>stratos</Authors>
+
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/stratosblue/Cuture.AspNetCore.DynamicCors</PackageProjectUrl>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
+
+    <PackageTags>dynamic-cors cors aspnet-dynamic-cors aspnet-cors aspnetcore-dynamic-cors aspnetcore-cors api-dynamic-cors api-cors webapi-dynamic-cors webapi-cors</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>
+        Cuture.AspNetCore.DynamicCors.Test, PublicKey="0024000004800000940000000602000000240000525341310004000001000100694ba3684f18a4a788c8dd430faaa321d4588cb7943bbc391efbaa88833f476e3e0a334165d5afb0d549c7e041c7c67102d3893c0877860a6d27da958d09d7bf205db132ca0e87cc398830b69b775cf372c6d37956819019f8c7d04393ff3a88b91a4737287c6e70d865e782998706e361c4a5c2bc3125f9e008ae6a9a119aad"
+      </_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Link="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+</Project>
