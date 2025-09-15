@@ -26,6 +26,12 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
 
     #endregion Private 字段
 
+    #region Internal 属性
+
+    internal Task InitTask { get; }
+
+    #endregion Internal 属性
+
     #region Public 构造函数
 
     public AllowedOriginsSynchronizer(IDomainNameCollectionContainer domainNameCollectionContainer,
@@ -54,9 +60,11 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
         var cancellationToken = _cancellationTokenSource.Token;
 
         //初始化
-        Task.Run(async () =>
+        InitTask = Task.Run(async () =>
         {
             await _syncSemaphore.WaitAsync(cancellationToken);
+
+            _logger.LogInformation("Starting init the dynamic cors allowed origins.");
 
             try
             {
@@ -79,6 +87,7 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
             }
             finally
             {
+                _logger.LogInformation("Dynamic cors allowed origins init completed.");
                 _syncSemaphore.Release();
             }
         });

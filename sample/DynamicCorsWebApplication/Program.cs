@@ -14,8 +14,8 @@ builder.Services.AddDynamicCors(builder =>
                                      .AllowCredentials()
                                      .AllowAnyHeader();
                     })
-                    //.SyncAllowedOriginsFromConfiguration("Cors:AllowedOrigins")
                     .SyncAllowedOriginsWithOptions<SampleCorsOptions>(m => m.AllowedOrigins)
+                    .SyncAllowedOriginsFromConfiguration("Cors:AllowedOrigins2")
                     ;
                 });
 
@@ -26,6 +26,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapSwaggerUI();
 }
+
+//可选
+app.WaitDynamicCorsInit();
 
 app.UseCors();
 

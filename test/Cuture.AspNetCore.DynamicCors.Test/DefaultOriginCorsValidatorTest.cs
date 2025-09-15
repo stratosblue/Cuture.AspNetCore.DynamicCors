@@ -80,12 +80,12 @@ public sealed class DefaultOriginCorsValidatorTest
     [TestMethod]
     public void Should_Return_False_For_Null_Origin()
     {
-        _domainNameCollectionMock.Setup(m => m.Contains(null)).Returns(false);
+        _domainNameCollectionMock.Setup(m => m.Contains(null!)).Returns(false);
 
-        var result = _validator.IsAllowed(null);
+        var result = _validator.IsAllowed(null!);
 
         Assert.IsFalse(result);
-        _domainNameCollectionMock.Verify(m => m.Contains(null), Times.Once);
+        _domainNameCollectionMock.Verify(m => m.Contains(null!), Times.Once);
     }
 
     [TestMethod]

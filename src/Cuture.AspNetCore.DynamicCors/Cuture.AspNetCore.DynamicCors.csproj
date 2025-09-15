@@ -15,7 +15,7 @@
   <!--Package-->
   <PropertyGroup>
 
-    <Version>1.0.0-preview-001</Version>
+    <Version>1.0.0-preview-002</Version>
 
     <IsPackable>true</IsPackable>
 

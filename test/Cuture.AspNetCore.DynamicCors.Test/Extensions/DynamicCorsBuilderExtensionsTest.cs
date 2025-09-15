@@ -1,5 +1,7 @@
 ﻿// 代码由 AI 自动生成
 
+using Cuture.AspNetCore.DynamicCors.Internal;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -259,7 +261,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
         Assert.AreEqual(2, syncSources.Count());
 
         // 验证配置服务只注册了一次
-        var configureOptions = _services.Where(s => s.ServiceType == typeof(IPostConfigureOptions<DynamicCorsOptions>));
+        var configureOptions = _services.Where(s => s.ServiceType == typeof(IPostConfigureOptions<CorsOptions>) && s.ImplementationType == typeof(AllowedOriginsSynchronizerInitPostConfigureOptions));
         Assert.AreEqual(1, configureOptions.Count());
     }
 
