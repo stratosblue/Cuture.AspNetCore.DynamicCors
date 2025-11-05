@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 
 namespace Cuture.AspNetCore.DynamicCors.Internal.OriginsSync;
 
 internal sealed class OptionsMonitorAllowedOriginsSyncSource<TOptions>
-    : IAllowedOriginsSyncSource
+    : AllowedOriginsSyncSource
     where TOptions : class
 {
     #region Private 字段
@@ -16,31 +15,24 @@ internal sealed class OptionsMonitorAllowedOriginsSyncSource<TOptions>
 
     private readonly Func<TOptions, object?> _propertySelectAction;
 
-    private ConfigurationReloadToken _changeToken = new();
-
     #endregion Private 字段
-
-    #region Public 属性
-
-    public string? PolicyName { get; }
-
-    #endregion Public 属性
 
     #region Public 构造函数
 
-    public OptionsMonitorAllowedOriginsSyncSource(string? policyName, IOptionsMonitor<TOptions> optionsMonitor, Func<TOptions, object?> propertySelectAction)
+    public OptionsMonitorAllowedOriginsSyncSource(string? policyName,
+                                                  IOptionsMonitor<TOptions> optionsMonitor,
+                                                  Func<TOptions, object?> propertySelectAction)
+        : base(policyName)
     {
         ArgumentNullException.ThrowIfNull(optionsMonitor);
         ArgumentNullException.ThrowIfNull(propertySelectAction);
 
-        PolicyName = policyName;
         _optionsMonitor = optionsMonitor;
         _propertySelectAction = propertySelectAction;
 
         _optionsMonitorDisposer = optionsMonitor.OnChange(_ =>
         {
-            var previousToken = Interlocked.Exchange(ref _changeToken, new ConfigurationReloadToken());
-            previousToken.OnReload();
+            NotifySourceChanged();
         });
     }
 
@@ -48,9 +40,10 @@ internal sealed class OptionsMonitorAllowedOriginsSyncSource<TOptions>
 
     #region Public 方法
 
-    public void Dispose() => _optionsMonitorDisposer?.Dispose();
+    /// <inheritdoc/>
+    public override string ToString() => $"Options: [{typeof(TOptions)}]";
 
-    public Task<IEnumerable<string>> GetOriginsAsync(CancellationToken cancellationToken)
+    protected override Task<IEnumerable<string>> InnerGetOriginsAsync(CancellationToken cancellationToken)
     {
         var value = _propertySelectAction(_optionsMonitor.CurrentValue);
 
@@ -70,7 +63,15 @@ internal sealed class OptionsMonitorAllowedOriginsSyncSource<TOptions>
         return Task.FromResult(origins ?? [])!;
     }
 
-    public IChangeToken GetReloadToken() => _changeToken;
-
     #endregion Public 方法
+
+    #region Protected 方法
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        _optionsMonitorDisposer?.Dispose();
+    }
+
+    #endregion Protected 方法
 }

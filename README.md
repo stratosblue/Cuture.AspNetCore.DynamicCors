@@ -37,6 +37,7 @@ services.AddDynamicCors(builder =>
             })
             //.SyncAllowedOriginsFromConfiguration("Cors:AllowedOrigins") //从 IConfiguration 同步允许跨域的域名列表
             .SyncAllowedOriginsWithOptions<SampleCorsOptions>(m => m.AllowedOrigins)  //从 IOptions<SampleCorsOptions> 同步允许跨域的域名列表
+            .AddAllowedOriginsSyncSource<SampleAllowedOriginsSyncSource>() //添加从指定的同步源同步允许跨域的域名列表
             ;
         });
 ```
@@ -58,4 +59,26 @@ collection.Remove("http://sample.com"); //从集合中移除指定域名
 collection.Reset(["http://sample.com", "http://sample2.com"]); //重置为指定集合
 collection.Contains("http://sample.com"); //检查是否包含指定域名
 collection.Clear(); //清空集合
+```
+
+### 3.2 实现`允许来源同步源` - IAllowedOriginsSyncSource
+`允许来源同步源` 为动态更新Cors域名集合提供支持。已实现抽象基类 `AllowedOriginsSyncSource` ，从其派生可以简化实现逻辑
+```C#
+class SampleAllowedOriginsSyncSource
+    : AllowedOriginsSyncSource
+{
+    // PolicyName policyName 会自动注入策略名称
+    public SampleAllowedOriginsSyncSource(PolicyName policyName, ILogger<SampleAllowedOriginsSyncSource> logger) : base(policyName)
+    {
+        //通知当前源已变更，程序会自动调用 GetOrigins 再次获取
+        //NotifySourceChanged();
+    }
+
+    protected override Task<IEnumerable<string>> InnerGetOriginsAsync(CancellationToken cancellationToken)
+    {
+        //获取允许来源列表
+        throw new NotImplementedException();
+    }
+}
+
 ```

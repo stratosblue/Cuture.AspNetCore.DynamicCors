@@ -1,4 +1,5 @@
 ﻿using Cuture.AspNetCore.DynamicCors;
+using DynamicCorsWebApplication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddDynamicCors(builder =>
                     })
                     .SyncAllowedOriginsWithOptions<SampleCorsOptions>(m => m.AllowedOrigins)
                     .SyncAllowedOriginsFromConfiguration("Cors:AllowedOrigins2")
+                    .AddAllowedOriginsSyncSource<SampleAllowedOriginsSyncSource>()
                     ;
                 });
 

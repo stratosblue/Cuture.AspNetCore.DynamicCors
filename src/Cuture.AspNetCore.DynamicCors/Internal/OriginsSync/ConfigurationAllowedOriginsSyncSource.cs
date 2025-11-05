@@ -38,5 +38,8 @@ internal sealed class ConfigurationAllowedOriginsSyncSource(string? policyName, 
 
     public IChangeToken GetReloadToken() => configuration.GetReloadToken();
 
+    /// <inheritdoc/>
+    public override string ToString() => $"Configuration: [{(configuration as IConfigurationSection)?.Path}]";
+
     #endregion Public 方法
 }

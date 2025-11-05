@@ -1,6 +1,7 @@
 ﻿#pragma warning disable IDE0130
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Cuture.AspNetCore.DynamicCors.Internal;
 using Cuture.AspNetCore.DynamicCors.Internal.OriginsSync;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -10,6 +11,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Cuture.AspNetCore.DynamicCors;
+
+/// <summary>
+/// <see cref="IAllowedOriginsSyncSource"/> 创建委托
+/// </summary>
+/// <param name="policyName">当前策略名称</param>
+/// <param name="serviceProvider"></param>
+/// <returns></returns>
+public delegate IAllowedOriginsSyncSource SyncSourceCreateDelegate(string? policyName, IServiceProvider serviceProvider);
 
 /// <summary>
 /// 动态Cors构造拓展
@@ -26,20 +35,36 @@ public static class DynamicCorsBuilderExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="syncSourceFactory"></param>
+    /// <param name="serviceLifetime"></param>
     /// <returns></returns>
-    public static DynamicCorsPolicyBuilder AddAllowedOriginsSyncSource(DynamicCorsPolicyBuilder builder, Func<IServiceProvider, IAllowedOriginsSyncSource> syncSourceFactory)
+    public static DynamicCorsPolicyBuilder AddAllowedOriginsSyncSource(this DynamicCorsPolicyBuilder builder,
+                                                                       SyncSourceCreateDelegate syncSourceFactory,
+                                                                       ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
-        builder.Services.TryAddSingleton<AllowedOriginsSynchronizer>();
+        var policyName = builder.PolicyName;
 
-        builder.Services.AddSingleton<IAllowedOriginsSyncSource>(syncSourceFactory);
+        var serviceDescriptor = ServiceDescriptor.Describe(serviceType: typeof(IAllowedOriginsSyncSource),
+                                                           implementationFactory: serviceProvider => syncSourceFactory(policyName, serviceProvider),
+                                                           lifetime: serviceLifetime);
 
-        if (!builder.Services.Any(static m => m.ServiceType == typeof(IPostConfigureOptions<CorsOptions>) && m.ImplementationType == typeof(AllowedOriginsSynchronizerInitPostConfigureOptions)))
-        {
-            var descriptor = ServiceDescriptor.Singleton<IPostConfigureOptions<CorsOptions>, AllowedOriginsSynchronizerInitPostConfigureOptions>();
-            builder.Services.Add(descriptor);
-        }
+        builder.Services.Add(serviceDescriptor);
 
-        return builder;
+        return AddAllowedOriginsSyncSourceCore(builder);
+    }
+
+    /// <summary>
+    /// 添加允许来源同步源
+    /// </summary>
+    /// <typeparam name="TSyncSource"></typeparam>
+    /// <param name="builder"></param>
+    /// <param name="serviceLifetime"></param>
+    /// <returns></returns>
+    public static DynamicCorsPolicyBuilder AddAllowedOriginsSyncSource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TSyncSource>(this DynamicCorsPolicyBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+        where TSyncSource : IAllowedOriginsSyncSource
+    {
+        return AddAllowedOriginsSyncSource(builder: builder,
+                                           syncSourceFactory: (policyName, serviveProvider) => ActivatorUtilities.CreateInstance<TSyncSource>(serviveProvider, new PolicyName(policyName)),
+                                           serviceLifetime: serviceLifetime);
     }
 
     /// <summary>
@@ -52,7 +77,7 @@ public static class DynamicCorsBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
 
-        return AddAllowedOriginsSyncSource(builder, serviveProvider => new ConfigurationAllowedOriginsSyncSource(builder.PolicyName, serviveProvider.GetRequiredService<IConfiguration>().GetSection(key)));
+        return AddAllowedOriginsSyncSource(builder, (policyName, serviveProvider) => new ConfigurationAllowedOriginsSyncSource(policyName, serviveProvider.GetRequiredService<IConfiguration>().GetSection(key)));
     }
 
     /// <summary>
@@ -67,7 +92,7 @@ public static class DynamicCorsBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(propertySelectAction);
 
-        return AddAllowedOriginsSyncSource(builder, serviveProvider => new OptionsMonitorAllowedOriginsSyncSource<TOptions>(builder.PolicyName, serviveProvider.GetRequiredService<IOptionsMonitor<TOptions>>(), propertySelectAction));
+        return AddAllowedOriginsSyncSource(builder, (policyName, serviveProvider) => new OptionsMonitorAllowedOriginsSyncSource<TOptions>(policyName, serviveProvider.GetRequiredService<IOptionsMonitor<TOptions>>(), propertySelectAction));
     }
 
     /// <summary>
@@ -82,10 +107,23 @@ public static class DynamicCorsBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(propertySelectAction);
 
-        return AddAllowedOriginsSyncSource(builder, serviveProvider => new OptionsMonitorAllowedOriginsSyncSource<TOptions>(builder.PolicyName, serviveProvider.GetRequiredService<IOptionsMonitor<TOptions>>(), propertySelectAction));
+        return AddAllowedOriginsSyncSource(builder, (policyName, serviveProvider) => new OptionsMonitorAllowedOriginsSyncSource<TOptions>(policyName, serviveProvider.GetRequiredService<IOptionsMonitor<TOptions>>(), propertySelectAction));
     }
 
     #endregion Sync
+
+    private static DynamicCorsPolicyBuilder AddAllowedOriginsSyncSourceCore(DynamicCorsPolicyBuilder builder)
+    {
+        builder.Services.TryAddSingleton<AllowedOriginsSynchronizer>();
+
+        if (!builder.Services.Any(static m => m.ServiceType == typeof(IPostConfigureOptions<CorsOptions>) && m.ImplementationType == typeof(AllowedOriginsSynchronizerInitPostConfigureOptions)))
+        {
+            var descriptor = ServiceDescriptor.Singleton<IPostConfigureOptions<CorsOptions>, AllowedOriginsSynchronizerInitPostConfigureOptions>();
+            builder.Services.Add(descriptor);
+        }
+
+        return builder;
+    }
 
     #endregion Public 方法
 }
