@@ -62,10 +62,7 @@ internal sealed partial class DomainNameMatcher
                 children = matchNode.Children;
             }
 
-            if (finalNode is not null)
-            {
-                finalNode.IsEndpoint = true;
-            }
+            finalNode?.IsEndpoint = true;
         }
     }
 

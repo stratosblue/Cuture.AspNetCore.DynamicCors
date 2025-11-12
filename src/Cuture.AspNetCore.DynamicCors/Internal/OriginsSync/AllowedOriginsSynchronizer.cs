@@ -76,7 +76,10 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Init allowed origins from source {Source} failed.", sourceOrigins.Source);
+                        if (_logger.IsEnabled(LogLevel.Error))
+                        {
+                            _logger.LogError(ex, "Init allowed origins from source {Source} failed.", sourceOrigins.Source);
+                        }
                     }
                 }
 
@@ -135,7 +138,10 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
         {
             if (_domainNameCollectionContainer.Get(policyName) is not { } domainNameCollection)
             {
-                _logger.LogWarning("Cannot get dynamic cors domainNameCollection for policy {Name}.", policyName);
+                if (_logger.IsEnabled(LogLevel.Warning))
+                {
+                    _logger.LogWarning("Cannot get dynamic cors domainNameCollection for policy {Name}.", policyName);
+                }
             }
             else
             {
@@ -162,7 +168,10 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
             {
                 try
                 {
-                    _logger.LogInformation("Starting sync allowed origins for {Name} from source {Source}.", policyName, sourceOrigins.Source);
+                    if (_logger.IsEnabled(LogLevel.Information))
+                    {
+                        _logger.LogInformation("Starting sync allowed origins for {Name} from source {Source}.", policyName, sourceOrigins.Source);
+                    }
 
                     await sourceOrigins.LoadOriginsAsync(cancellationToken);
 
@@ -170,7 +179,10 @@ internal sealed class AllowedOriginsSynchronizer : IDisposable
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Sync allowed origins for {Name} from source {Source} failed.", policyName, sourceOrigins.Source);
+                    if (_logger.IsEnabled(LogLevel.Error))
+                    {
+                        _logger.LogError(ex, "Sync allowed origins for {Name} from source {Source} failed.", policyName, sourceOrigins.Source);
+                    }
                 }
             }
             finally

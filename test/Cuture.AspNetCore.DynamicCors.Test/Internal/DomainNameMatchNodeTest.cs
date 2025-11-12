@@ -64,7 +64,7 @@ public sealed class DomainNameMatchNodeTest
     {
         var children = _childNode.Children;
         Assert.IsNotNull(children);
-        Assert.AreEqual(0, children.Count);
+        Assert.IsEmpty(children);
     }
 
     [TestMethod]
@@ -160,7 +160,7 @@ public sealed class DomainNameMatchNodeTest
         root.Children.TryAdd("test".AsMemory(), new DomainNameMatchNode(root, "test".AsMemory()));
         root.Children.TryAdd("demo".AsMemory(), new DomainNameMatchNode(root, "demo".AsMemory()));
 
-        Assert.AreEqual(3, root.Children.Count);
+        Assert.HasCount(3, root.Children);
         Assert.AreEqual("com(3)", root.ToString());
     }
 

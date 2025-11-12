@@ -198,7 +198,7 @@ public sealed class DynamicCorsPolicyBuilderTest
             builders.Add(builder);
         }
 
-        Assert.AreEqual(1000, builders.Count);
+        Assert.HasCount(1000, builders);
         Assert.AreEqual(1000, builders.Select(b => b.PolicyName).Distinct().Count());
     }
 
@@ -218,7 +218,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var builder = new DynamicCorsPolicyBuilder(largeServiceCollection, "test-policy");
 
         Assert.AreEqual(largeServiceCollection, builder.Services);
-        Assert.AreEqual(1000, builder.Services.Count);
+        Assert.HasCount(1000, builder.Services);
     }
 
     #endregion 内存测试

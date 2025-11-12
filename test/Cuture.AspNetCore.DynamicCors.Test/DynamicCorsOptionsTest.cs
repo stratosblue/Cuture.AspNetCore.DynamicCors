@@ -72,7 +72,7 @@ public sealed class DynamicCorsOptionsTest
             builder.WithOrigins("http://example.com");
         });
 
-        Assert.AreEqual(1, _options.PolicyMap.Count);
+        Assert.HasCount(1, _options.PolicyMap);
         Assert.IsTrue(_options.PolicyMap.ContainsKey(_options.DefaultPolicyName));
     }
 
@@ -82,7 +82,7 @@ public sealed class DynamicCorsOptionsTest
         var policy = new CorsPolicy();
         _options.AddDefaultPolicy(policy);
 
-        Assert.AreEqual(1, _options.PolicyMap.Count);
+        Assert.HasCount(1, _options.PolicyMap);
         Assert.IsTrue(_options.PolicyMap.ContainsKey(_options.DefaultPolicyName));
     }
 
@@ -117,7 +117,7 @@ public sealed class DynamicCorsOptionsTest
             builder.WithOrigins("http://example.com");
         });
 
-        Assert.AreEqual(1, _options.PolicyMap.Count);
+        Assert.HasCount(1, _options.PolicyMap);
         Assert.IsTrue(_options.PolicyMap.ContainsKey(policyName));
     }
 
@@ -128,7 +128,7 @@ public sealed class DynamicCorsOptionsTest
         var policy = new CorsPolicy();
         _options.AddPolicy(policyName, policy);
 
-        Assert.AreEqual(1, _options.PolicyMap.Count);
+        Assert.HasCount(1, _options.PolicyMap);
         Assert.IsTrue(_options.PolicyMap.ContainsKey(policyName));
     }
 
@@ -175,7 +175,7 @@ public sealed class DynamicCorsOptionsTest
     [TestMethod]
     public void Should_Have_Empty_PolicyMap_Initially()
     {
-        Assert.AreEqual(0, _options.PolicyMap.Count);
+        Assert.IsEmpty(_options.PolicyMap);
     }
 
     [TestMethod]
@@ -186,11 +186,11 @@ public sealed class DynamicCorsOptionsTest
         var policyName = "test-policy";
 
         _options.AddPolicy(policyName, policy1);
-        Assert.AreEqual(1, _options.PolicyMap.Count);
+        Assert.HasCount(1, _options.PolicyMap);
         Assert.AreEqual(policy1, _options.PolicyMap[policyName].policy);
 
         _options.AddPolicy(policyName, policy2);
-        Assert.AreEqual(1, _options.PolicyMap.Count);
+        Assert.HasCount(1, _options.PolicyMap);
         Assert.AreEqual(policy2, _options.PolicyMap[policyName].policy);
     }
 

@@ -284,7 +284,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         stopwatch.Stop();
 
-        Assert.IsTrue(stopwatch.ElapsedMilliseconds < 1000); // 应该在一秒内完成
+        Assert.IsLessThan(1000, stopwatch.ElapsedMilliseconds); // 应该在一秒内完成
     }
 
     #endregion 性能测试

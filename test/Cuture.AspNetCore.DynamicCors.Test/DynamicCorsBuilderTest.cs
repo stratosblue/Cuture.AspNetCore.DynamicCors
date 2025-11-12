@@ -70,9 +70,10 @@ public sealed class DynamicCorsBuilderTest
     [TestMethod]
     public void Should_Throw_Exception_When_Default_Policy_Action_Is_Null()
     {
+        _builder.AddDefaultPolicy((Action<CorsPolicyBuilder>)null!);
+
         Assert.ThrowsExactly<ArgumentNullException>(() =>
         {
-            _builder.AddDefaultPolicy((Action<CorsPolicyBuilder>)null!);
             GetBuildedOptions();
         });
     }
@@ -80,9 +81,10 @@ public sealed class DynamicCorsBuilderTest
     [TestMethod]
     public void Should_Throw_Exception_When_Default_Policy_Is_Null()
     {
+        _builder.AddDefaultPolicy((CorsPolicy)null!);
+
         Assert.ThrowsExactly<ArgumentNullException>(() =>
         {
-            _builder.AddDefaultPolicy((CorsPolicy)null!);
             GetBuildedOptions();
         });
     }
@@ -128,9 +130,10 @@ public sealed class DynamicCorsBuilderTest
     [TestMethod]
     public void Should_Throw_Exception_When_Policy_Action_Is_Null()
     {
+        _builder.AddPolicy("test-policy", (Action<CorsPolicyBuilder>)null!);
+
         Assert.ThrowsExactly<ArgumentNullException>(() =>
         {
-            _builder.AddPolicy("test-policy", (Action<CorsPolicyBuilder>)null!);
             GetBuildedOptions();
         });
     }
@@ -138,9 +141,10 @@ public sealed class DynamicCorsBuilderTest
     [TestMethod]
     public void Should_Throw_Exception_When_Policy_Is_Null()
     {
+        _builder.AddPolicy("test-policy", (CorsPolicy)null!);
+
         Assert.ThrowsExactly<ArgumentNullException>(() =>
         {
-            _builder.AddPolicy("test-policy", (CorsPolicy)null!);
             GetBuildedOptions();
         });
     }
@@ -148,9 +152,10 @@ public sealed class DynamicCorsBuilderTest
     [TestMethod]
     public void Should_Throw_Exception_When_Policy_Name_Is_Null()
     {
+        _builder.AddPolicy(null!, new CorsPolicy());
+
         Assert.ThrowsExactly<ArgumentNullException>(() =>
         {
-            _builder.AddPolicy(null!, new CorsPolicy());
             GetBuildedOptions();
         });
     }
@@ -166,7 +171,7 @@ public sealed class DynamicCorsBuilderTest
         _builder.Services.AddSingleton<object>();
 
         Assert.AreEqual(originalServices, _builder.Services);
-        Assert.AreEqual(1, _builder.Services.Count);
+        Assert.HasCount(1, _builder.Services);
     }
 
     [TestMethod]

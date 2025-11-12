@@ -121,7 +121,7 @@ public sealed class DefaultOriginCorsValidatorTest
     {
         Assert.ThrowsExactly<ArgumentNullException>(() =>
         {
-            new DefaultOriginCorsValidator(null!);
+            _ = new DefaultOriginCorsValidator(null!);
         });
     }
 

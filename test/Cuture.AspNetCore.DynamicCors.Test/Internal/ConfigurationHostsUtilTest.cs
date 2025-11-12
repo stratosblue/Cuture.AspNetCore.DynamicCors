@@ -15,7 +15,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(0, result.Length);
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -24,7 +24,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "example.com:8080;test.com:443";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("example.com:8080", result[0]);
         Assert.AreEqual("test.com:443", result[1]);
     }
@@ -35,7 +35,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "192.168.1.1;10.0.0.1";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("192.168.1.1", result[0]);
         Assert.AreEqual("10.0.0.1", result[1]);
     }
@@ -46,7 +46,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "localhost;127.0.0.1";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("localhost", result[0]);
         Assert.AreEqual("127.0.0.1", result[1]);
     }
@@ -57,7 +57,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "example.com;;;test.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("example.com", result[0]);
         Assert.AreEqual("test.com", result[1]);
     }
@@ -68,7 +68,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = ";";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(0, result.Length);
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "api.example.com;www.test.com;mail.demo.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(3, result.Length);
+        Assert.HasCount(3, result);
         Assert.AreEqual("api.example.com", result[0]);
         Assert.AreEqual("www.test.com", result[1]);
         Assert.AreEqual("mail.demo.com", result[2]);
@@ -89,7 +89,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "https://example.com;http://test.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("https://example.com", result[0]);
         Assert.AreEqual("http://test.com", result[1]);
     }
@@ -100,7 +100,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "   ";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(0, result.Length);
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -109,7 +109,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "*.example.com;*.test.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("*.example.com", result[0]);
         Assert.AreEqual("*.test.com", result[1]);
     }
@@ -120,7 +120,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "example.com;;test.com;";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("example.com", result[0]);
         Assert.AreEqual("test.com", result[1]);
     }
@@ -131,7 +131,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "example.com;test.com;demo.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(3, result.Length);
+        Assert.HasCount(3, result);
         Assert.AreEqual("example.com", result[0]);
         Assert.AreEqual("test.com", result[1]);
         Assert.AreEqual("demo.com", result[2]);
@@ -143,7 +143,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "example.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(1, result.Length);
+        Assert.HasCount(1, result);
         Assert.AreEqual("example.com", result[0]);
     }
 
@@ -153,7 +153,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "  example.com  ;  test.com  ";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual("example.com", result[0]);
         Assert.AreEqual("test.com", result[1]);
     }
@@ -168,7 +168,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "a;b;c";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(3, result.Length);
+        Assert.HasCount(3, result);
         Assert.AreEqual("a", result[0]);
         Assert.AreEqual("b", result[1]);
         Assert.AreEqual("c", result[2]);
@@ -180,7 +180,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = "test-domain.com;sub_domain.com;test123.com";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(3, result.Length);
+        Assert.HasCount(3, result);
         Assert.AreEqual("test-domain.com", result[0]);
         Assert.AreEqual("sub_domain.com", result[1]);
         Assert.AreEqual("test123.com", result[2]);
@@ -193,7 +193,7 @@ public sealed class ConfigurationHostsUtilTest
         var input = longHost + ";" + longHost + "2";
         var result = ConfigurationHostsUtil.SplitAsHosts(input);
 
-        Assert.AreEqual(2, result.Length);
+        Assert.HasCount(2, result);
         Assert.AreEqual(longHost, result[0]);
         Assert.AreEqual(longHost + "2", result[1]);
     }

@@ -436,7 +436,7 @@ public sealed class DomainNameMatcherTest
     #region 性能测试
 
     [TestMethod]
-    [Timeout(1000)] // 1秒内完成
+    [Timeout(1000, CooperativeCancellation = true)] // 1秒内完成
     public void Should_Perform_Fast_Lookup_With_Large_Dataset()
     {
         // 添加大量域名

@@ -83,7 +83,7 @@ public sealed class DynamicCorsProviderIntegrationTest
 
         // 验证策略不为空
         Assert.IsNotNull(policy);
-        Assert.AreEqual(0, policy.Origins.Count);
+        Assert.IsEmpty(policy.Origins);
     }
 
     /// <summary>
@@ -191,8 +191,8 @@ public sealed class DynamicCorsProviderIntegrationTest
         apiContext.Request.Headers["Origin"] = "http://api.company.com";
         var apiPolicy = await policyProvider.GetPolicyAsync(apiContext, "api-policy");
         Assert.IsNotNull(apiPolicy);
-        Assert.AreEqual(2, apiPolicy.Methods.Count);
-        Assert.AreEqual(2, apiPolicy.Headers.Count);
+        Assert.HasCount(2, apiPolicy.Methods);
+        Assert.HasCount(2, apiPolicy.Headers);
 
         // 测试开发环境
         var devContext = new DefaultHttpContext();

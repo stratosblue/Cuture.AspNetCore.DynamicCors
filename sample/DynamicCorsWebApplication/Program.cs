@@ -36,7 +36,6 @@ app.UseCors();
 
 app.MapGet("/hello", () => "world")
    .WithName("Hello")
-   .WithOpenApi()
    .RequireCors();
 
 app.Run();

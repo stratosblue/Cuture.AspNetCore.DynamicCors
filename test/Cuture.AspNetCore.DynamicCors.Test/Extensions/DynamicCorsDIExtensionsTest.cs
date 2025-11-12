@@ -368,7 +368,7 @@ public sealed class DynamicCorsDIExtensionsTest
 
         stopwatch.Stop();
 
-        Assert.IsTrue(stopwatch.ElapsedMilliseconds < 1000); // 应该在一秒内完成
+        Assert.IsLessThan(1000, stopwatch.ElapsedMilliseconds); // 应该在一秒内完成
     }
 
     [TestMethod]
@@ -380,7 +380,7 @@ public sealed class DynamicCorsDIExtensionsTest
 
         stopwatch.Stop();
 
-        Assert.IsTrue(stopwatch.ElapsedMilliseconds < 100); // 应该在100毫秒内完成
+        Assert.IsLessThan(100, stopwatch.ElapsedMilliseconds); // 应该在100毫秒内完成
     }
 
     #endregion 性能测试
