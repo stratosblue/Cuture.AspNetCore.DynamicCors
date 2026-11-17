@@ -61,7 +61,7 @@ public sealed class DynamicCorsProviderIntegrationTest
 
         // 测试动态策略匹配
         var context = new DefaultHttpContext();
-        context.Request.Headers["Origin"] = "http://dynamic.com";
+        context.Request.Headers.Origin = "http://dynamic.com";
 
         // 验证动态策略生效
         var policy = await _policyProvider.GetPolicyAsync(context, "api-policy");
@@ -76,7 +76,7 @@ public sealed class DynamicCorsProviderIntegrationTest
     {
         // 创建HTTP上下文
         var context = new DefaultHttpContext();
-        context.Request.Headers["Origin"] = "http://default.com";
+        context.Request.Headers.Origin = "http://default.com";
 
         // 通过动态CORS策略提供器获取策略
         var policy = await _policyProvider.GetPolicyAsync(context, null);
@@ -93,7 +93,7 @@ public sealed class DynamicCorsProviderIntegrationTest
     public async Task Should_Return_Null_When_Policy_Not_Found()
     {
         var context = new DefaultHttpContext();
-        context.Request.Headers["Origin"] = "http://unknown.com";
+        context.Request.Headers.Origin = "http://unknown.com";
 
         var policy = await _policyProvider.GetPolicyAsync(context, "non-existent-policy");
 
@@ -136,7 +136,7 @@ public sealed class DynamicCorsProviderIntegrationTest
         foreach (var origin in testOrigins)
         {
             var context = new DefaultHttpContext();
-            context.Request.Headers["Origin"] = origin;
+            context.Request.Headers.Origin = origin;
 
             // 所有请求都应该使用相同的策略配置
             var policy = await policyProvider.GetPolicyAsync(context, "unified-policy");
@@ -182,13 +182,13 @@ public sealed class DynamicCorsProviderIntegrationTest
 
         // 测试生产环境
         var prodContext = new DefaultHttpContext();
-        prodContext.Request.Headers["Origin"] = "https://app.company.com";
+        prodContext.Request.Headers.Origin = "https://app.company.com";
         var prodPolicy = await policyProvider.GetPolicyAsync(prodContext, null); // 使用默认策略
         Assert.IsNotNull(prodPolicy);
 
         // 测试API访问
         var apiContext = new DefaultHttpContext();
-        apiContext.Request.Headers["Origin"] = "http://api.company.com";
+        apiContext.Request.Headers.Origin = "http://api.company.com";
         var apiPolicy = await policyProvider.GetPolicyAsync(apiContext, "api-policy");
         Assert.IsNotNull(apiPolicy);
         Assert.HasCount(2, apiPolicy.Methods);
@@ -196,7 +196,7 @@ public sealed class DynamicCorsProviderIntegrationTest
 
         // 测试开发环境
         var devContext = new DefaultHttpContext();
-        devContext.Request.Headers["Origin"] = "http://localhost:3000";
+        devContext.Request.Headers.Origin = "http://localhost:3000";
         var devPolicy = await policyProvider.GetPolicyAsync(devContext, "dev-policy");
         Assert.IsNotNull(devPolicy);
         Assert.IsTrue(devPolicy.AllowAnyMethod);
@@ -223,7 +223,7 @@ public sealed class DynamicCorsProviderIntegrationTest
 
         // 初始状态
         var context1 = new DefaultHttpContext();
-        context1.Request.Headers["Origin"] = "http://initial.com";
+        context1.Request.Headers.Origin = "http://initial.com";
         var policy1 = await policyProvider.GetPolicyAsync(context1, "dynamic-policy");
         Assert.IsNotNull(policy1);
 
@@ -236,7 +236,7 @@ public sealed class DynamicCorsProviderIntegrationTest
 
         // 验证新域名生效
         var context2 = new DefaultHttpContext();
-        context2.Request.Headers["Origin"] = "http://new-dynamic.com";
+        context2.Request.Headers.Origin = "http://new-dynamic.com";
         var policy2 = await policyProvider.GetPolicyAsync(context2, "dynamic-policy");
         Assert.IsNotNull(policy2);
     }
@@ -278,7 +278,7 @@ public sealed class DynamicCorsProviderIntegrationTest
         for (int i = 0; i < 100; i++)
         {
             var context = new DefaultHttpContext();
-            context.Request.Headers["Origin"] = $"http://app{i}.company.com";
+            context.Request.Headers.Origin = $"http://app{i}.company.com";
 
             var policy = await policyProvider.GetPolicyAsync(context, "performance-policy");
             Assert.IsNotNull(policy);

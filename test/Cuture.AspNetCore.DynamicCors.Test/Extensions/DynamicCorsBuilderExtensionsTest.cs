@@ -62,7 +62,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(1, syncSources.Count());
+        Assert.HasCount(1, syncSources);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
         // 验证服务是否已注册
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(1, syncSources.Count());
+        Assert.HasCount(1, syncSources);
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(1, syncSources.Count());
+        Assert.HasCount(1, syncSources);
     }
 
     [TestMethod]
@@ -136,7 +136,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(1, syncSources.Count());
+        Assert.HasCount(1, syncSources);
     }
 
     [TestMethod]
@@ -172,7 +172,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(3, syncSources.Count());
+        Assert.HasCount(3, syncSources);
     }
 
     [TestMethod]
@@ -192,7 +192,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(3, syncSources.Count());
+        Assert.HasCount(3, syncSources);
     }
 
     [TestMethod]
@@ -213,7 +213,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(3, syncSources.Count());
+        Assert.HasCount(3, syncSources);
     }
 
     #endregion 复杂场景测试
@@ -235,7 +235,7 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(100, syncSources.Count());
+        Assert.HasCount(100, syncSources);
     }
 
     #endregion 边界条件测试
@@ -258,11 +258,11 @@ public sealed class DynamicCorsBuilderExtensionsTest
 
         var serviceProvider = _services.BuildServiceProvider();
         var syncSources = serviceProvider.GetServices<IAllowedOriginsSyncSource>();
-        Assert.AreEqual(2, syncSources.Count());
+        Assert.HasCount(2, syncSources);
 
         // 验证配置服务只注册了一次
         var configureOptions = _services.Where(s => s.ServiceType == typeof(IPostConfigureOptions<CorsOptions>) && s.ImplementationType == typeof(AllowedOriginsSynchronizerInitPostConfigureOptions));
-        Assert.AreEqual(1, configureOptions.Count());
+        Assert.HasCount(1, configureOptions);
     }
 
     #endregion 服务注册测试

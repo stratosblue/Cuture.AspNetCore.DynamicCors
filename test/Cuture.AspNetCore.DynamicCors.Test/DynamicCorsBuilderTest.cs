@@ -33,7 +33,7 @@ public sealed class DynamicCorsBuilderTest
     public void Should_Initialize_With_Services()
     {
         Assert.IsNotNull(_builder);
-        Assert.AreEqual(_services, _builder.Services);
+        Assert.AreSequenceEqual(_services, _builder.Services);
     }
 
     #endregion Constructor 测试
@@ -170,14 +170,14 @@ public sealed class DynamicCorsBuilderTest
         var originalServices = _builder.Services;
         _builder.Services.AddSingleton<object>();
 
-        Assert.AreEqual(originalServices, _builder.Services);
+        Assert.AreSequenceEqual(originalServices, _builder.Services);
         Assert.HasCount(1, _builder.Services);
     }
 
     [TestMethod]
     public void Should_Return_Same_ServiceCollection()
     {
-        Assert.AreEqual(_services, _builder.Services);
+        Assert.AreSequenceEqual(_services, _builder.Services);
     }
 
     #endregion Services 属性测试

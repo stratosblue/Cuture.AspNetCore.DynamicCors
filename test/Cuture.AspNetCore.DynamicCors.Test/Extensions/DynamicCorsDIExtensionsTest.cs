@@ -36,7 +36,7 @@ public sealed class DynamicCorsDIExtensionsTest
         });
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(_services, result);
+        Assert.AreSequenceEqual(_services, result);
 
         var serviceProvider = _services.BuildServiceProvider();
         Assert.IsNotNull(serviceProvider.GetService<DynamicCorsPoliciesContainer>());
@@ -48,7 +48,7 @@ public sealed class DynamicCorsDIExtensionsTest
         var result = _services.AddDynamicCors();
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(_services, result);
+        Assert.AreSequenceEqual(_services, result);
 
         var serviceProvider = _services.BuildServiceProvider();
 
@@ -313,7 +313,7 @@ public sealed class DynamicCorsDIExtensionsTest
         var result = services.AddDynamicCors();
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(services, result);
+        Assert.AreSequenceEqual(services, result);
     }
 
     [TestMethod]

@@ -58,7 +58,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -73,7 +73,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -88,7 +88,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://*.example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -102,7 +102,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -117,7 +117,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -143,7 +143,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(3, result.Count());
+        Assert.HasCount(3, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
         Assert.Contains("https://api.com", [.. result]);
@@ -163,7 +163,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(3, result.Count());
+        Assert.HasCount(3, result);
     }
 
     [TestMethod]
@@ -176,7 +176,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -189,7 +189,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(1, result.Count());
+        Assert.HasCount(1, result);
         Assert.AreEqual("http://example.com", result.First());
     }
 
@@ -203,7 +203,7 @@ public sealed class ConfigurationAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     #endregion 边界条件测试

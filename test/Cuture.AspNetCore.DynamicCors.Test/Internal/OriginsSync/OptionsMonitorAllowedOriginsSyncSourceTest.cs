@@ -82,7 +82,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -98,7 +98,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -114,7 +114,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -129,7 +129,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -142,7 +142,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -158,7 +158,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://*.example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -174,7 +174,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -190,7 +190,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -203,7 +203,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
     }
@@ -218,7 +218,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(3, result.Count());
+        Assert.HasCount(3, result);
         Assert.Contains("http://example.com", [.. result]);
         Assert.Contains("https://test.com", [.. result]);
         Assert.Contains("https://api.com", [.. result]);
@@ -238,7 +238,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(3, result.Count());
+        Assert.HasCount(3, result);
     }
 
     [TestMethod]
@@ -251,7 +251,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     [TestMethod]
@@ -264,7 +264,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(1, result.Count());
+        Assert.HasCount(1, result);
         Assert.AreEqual("http://example.com", result.First());
     }
 
@@ -278,7 +278,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
 
         var result = await _source.GetOriginsAsync(CancellationToken.None);
 
-        Assert.AreEqual(0, result.Count());
+        Assert.IsEmpty(result);
     }
 
     #endregion 边界条件测试
@@ -297,7 +297,7 @@ public sealed class OptionsMonitorAllowedOriginsSyncSourceTest
         using var cts = new CancellationTokenSource();
         var result = await _source.GetOriginsAsync(cts.Token);
 
-        Assert.AreEqual(2, result.Count());
+        Assert.HasCount(2, result);
     }
 
     #endregion CancellationToken 测试

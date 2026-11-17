@@ -15,6 +15,8 @@ public sealed class DomainNameMatcherTest
 
     #region 测试初始化
 
+    public TestContext TestContext { get; set; }
+
     [TestInitialize]
     public void Initialize()
     {
@@ -419,7 +421,7 @@ public sealed class DomainNameMatcherTest
         for (int i = 0; i < 100; i++)
         {
             var host = $"test{i}.com";
-            tasks.Add(Task.Run(() => _matcher.AddHost(host)));
+            tasks.Add(Task.Run(() => _matcher.AddHost(host), TestContext.CancellationToken));
         }
 
         Task.WaitAll([.. tasks]);

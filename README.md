@@ -22,7 +22,7 @@ A `dynamic Cors` support library based on `Microsoft.AspNetCore.Cors`. 基于 `M
 ## 2. 快速开始
 安装包
 ```C#
-<PackageReference Include="Cuture.AspNetCore.DynamicCors" Version="1.0.0-*" />
+<PackageReference Include="Cuture.AspNetCore.DynamicCors" Version="1.1.0" />
 ```
 添加服务
 ```C#

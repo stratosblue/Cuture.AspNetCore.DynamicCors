@@ -31,7 +31,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var builder = new DynamicCorsPolicyBuilder(_services, string.Empty);
 
         Assert.IsNotNull(builder);
-        Assert.AreEqual(_services, builder.Services);
+        Assert.AreSequenceEqual(_services, builder.Services);
         Assert.AreEqual(string.Empty, builder.PolicyName);
     }
 
@@ -41,7 +41,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var builder = new DynamicCorsPolicyBuilder(_services, null);
 
         Assert.IsNotNull(builder);
-        Assert.AreEqual(_services, builder.Services);
+        Assert.AreSequenceEqual(_services, builder.Services);
         Assert.IsNull(builder.PolicyName);
     }
 
@@ -51,7 +51,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var builder = new DynamicCorsPolicyBuilder(_services, "test-policy");
 
         Assert.IsNotNull(builder);
-        Assert.AreEqual(_services, builder.Services);
+        Assert.AreSequenceEqual(_services, builder.Services);
         Assert.AreEqual("test-policy", builder.PolicyName);
     }
 
@@ -61,7 +61,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var builder = new DynamicCorsPolicyBuilder(_services, null);
 
         Assert.IsNotNull(builder);
-        Assert.AreEqual(_services, builder.Services);
+        Assert.AreSequenceEqual(_services, builder.Services);
         Assert.IsNull(builder.PolicyName);
     }
 
@@ -126,7 +126,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var newBuilder = builder with { PolicyName = "new-policy" };
 
         Assert.AreEqual("new-policy", newBuilder.PolicyName);
-        Assert.AreEqual(builder.Services, newBuilder.Services);
+        Assert.AreSequenceEqual(builder.Services, newBuilder.Services);
     }
 
     #endregion 记录类型测试
@@ -139,7 +139,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         var builder = new DynamicCorsPolicyBuilder(_services, null);
 
         Assert.IsNull(builder.PolicyName);
-        Assert.AreEqual(_services, builder.Services);
+        Assert.AreSequenceEqual(_services, builder.Services);
     }
 
     [TestMethod]
@@ -157,7 +157,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         {
             var builder = new DynamicCorsPolicyBuilder(_services, policyName);
             Assert.AreEqual(policyName, builder.PolicyName);
-            Assert.AreEqual(_services, builder.Services);
+            Assert.AreSequenceEqual(_services, builder.Services);
         }
     }
 
@@ -199,7 +199,7 @@ public sealed class DynamicCorsPolicyBuilderTest
         }
 
         Assert.HasCount(1000, builders);
-        Assert.AreEqual(1000, builders.Select(b => b.PolicyName).Distinct().Count());
+        Assert.HasCount(1000, builders.Select(b => b.PolicyName).Distinct());
     }
 
     #endregion 性能测试
@@ -217,7 +217,7 @@ public sealed class DynamicCorsPolicyBuilderTest
 
         var builder = new DynamicCorsPolicyBuilder(largeServiceCollection, "test-policy");
 
-        Assert.AreEqual(largeServiceCollection, builder.Services);
+        Assert.AreSequenceEqual(largeServiceCollection, builder.Services);
         Assert.HasCount(1000, builder.Services);
     }
 

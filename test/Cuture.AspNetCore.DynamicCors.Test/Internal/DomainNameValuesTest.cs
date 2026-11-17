@@ -14,7 +14,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("https://api.sub.example.com:8080/");
 
-        Assert.AreEqual(4, domainNameValues.Values.Length);
+        Assert.HasCount(4, domainNameValues.Values);
         Assert.AreEqual("api", domainNameValues.Values[3].ToString());
         Assert.AreEqual("sub", domainNameValues.Values[2].ToString());
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
@@ -26,7 +26,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("http://example.com");
 
-        Assert.AreEqual(2, domainNameValues.Values.Length);
+        Assert.HasCount(2, domainNameValues.Values);
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
     }
@@ -37,7 +37,7 @@ public sealed class DomainNameValuesTest
         using var domainNameValues = DomainNameValues.Parse("example.com");
 
         Assert.IsFalse(domainNameValues.IsDefaultOrEmpty);
-        Assert.AreEqual(2, domainNameValues.Values.Length);
+        Assert.HasCount(2, domainNameValues.Values);
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
     }
@@ -47,7 +47,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("localhost");
 
-        Assert.AreEqual(1, domainNameValues.Values.Length);
+        Assert.HasCount(1, domainNameValues.Values);
         Assert.AreEqual("localhost", domainNameValues.Values[0].ToString());
     }
 
@@ -56,7 +56,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("api.sub.example.com");
 
-        Assert.AreEqual(4, domainNameValues.Values.Length);
+        Assert.HasCount(4, domainNameValues.Values);
         Assert.AreEqual("api", domainNameValues.Values[3].ToString());
         Assert.AreEqual("sub", domainNameValues.Values[2].ToString());
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
@@ -72,7 +72,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("sub-domain.example-site.com");
 
-        Assert.AreEqual(3, domainNameValues.Values.Length);
+        Assert.HasCount(3, domainNameValues.Values);
         Assert.AreEqual("sub-domain", domainNameValues.Values[2].ToString());
         Assert.AreEqual("example-site", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
@@ -83,7 +83,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("api123.example456.com");
 
-        Assert.AreEqual(3, domainNameValues.Values.Length);
+        Assert.HasCount(3, domainNameValues.Values);
         Assert.AreEqual("api123", domainNameValues.Values[2].ToString());
         Assert.AreEqual("example456", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
@@ -94,7 +94,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("192.168.1.1");
 
-        Assert.AreEqual(4, domainNameValues.Values.Length);
+        Assert.HasCount(4, domainNameValues.Values);
         Assert.AreEqual("192", domainNameValues.Values[3].ToString());
         Assert.AreEqual("168", domainNameValues.Values[2].ToString());
         Assert.AreEqual("1", domainNameValues.Values[1].ToString());
@@ -106,7 +106,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("localhost");
 
-        Assert.AreEqual(1, domainNameValues.Values.Length);
+        Assert.HasCount(1, domainNameValues.Values);
         Assert.AreEqual("localhost", domainNameValues.Values[0].ToString());
     }
 
@@ -116,7 +116,7 @@ public sealed class DomainNameValuesTest
         var longDomain = new string('a', 50) + ".com";
         using var domainNameValues = DomainNameValues.Parse(longDomain);
 
-        Assert.AreEqual(2, domainNameValues.Values.Length);
+        Assert.HasCount(2, domainNameValues.Values);
         Assert.AreEqual(new string('a', 50), domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
     }
@@ -170,7 +170,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("https://api.sub.example.com:8080/");
 
-        Assert.AreEqual(4, domainNameValues.Values.Length);
+        Assert.HasCount(4, domainNameValues.Values);
         Assert.AreEqual("api", domainNameValues.Values[3].ToString());
         Assert.AreEqual("sub", domainNameValues.Values[2].ToString());
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
@@ -182,7 +182,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("https://example.com:8080/");
 
-        Assert.AreEqual(2, domainNameValues.Values.Length);
+        Assert.HasCount(2, domainNameValues.Values);
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
     }
@@ -192,7 +192,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("http://example.com/");
 
-        Assert.AreEqual(2, domainNameValues.Values.Length);
+        Assert.HasCount(2, domainNameValues.Values);
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
     }
@@ -202,7 +202,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("*.example.com");
 
-        Assert.AreEqual(3, domainNameValues.Values.Length);
+        Assert.HasCount(3, domainNameValues.Values);
         Assert.AreEqual("*", domainNameValues.Values[2].ToString());
         Assert.AreEqual("example", domainNameValues.Values[1].ToString());
         Assert.AreEqual("com", domainNameValues.Values[0].ToString());
@@ -238,7 +238,7 @@ public sealed class DomainNameValuesTest
     {
         using var domainNameValues = DomainNameValues.Parse("a.b.c.d.com");
 
-        Assert.AreEqual(5, domainNameValues.Values.Length);
+        Assert.HasCount(5, domainNameValues.Values);
         Assert.AreEqual("a", domainNameValues.Values[4].ToString());
         Assert.AreEqual("b", domainNameValues.Values[3].ToString());
         Assert.AreEqual("c", domainNameValues.Values[2].ToString());
